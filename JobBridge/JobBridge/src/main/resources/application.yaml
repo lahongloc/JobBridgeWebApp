@@ -1,0 +1,22 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /jobbridge
+
+spring:
+  application:
+    name: jobbridge
+  datasource:
+    url: jdbc:mysql://localhost:3307/jobbridge_db
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  signerKey: "2OtyvNQV2zxB/n6sueTCLbECW9HDHIbdrJlcqiHd9h2OoX7FIQN+1/jFSklXDoUI"
+  valid-duration: 24 # in hours
+  refreshable-duration: 120 # in hours
+#    driver-class-name: org.postgresql.Driver

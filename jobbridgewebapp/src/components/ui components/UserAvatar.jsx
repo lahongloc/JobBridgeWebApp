@@ -1,0 +1,67 @@
+import React, { useContext } from "react";
+import { Avatar, Menu, Dropdown, Button } from "antd";
+import {
+	UserOutlined,
+	SettingOutlined,
+	LockOutlined,
+	LogoutOutlined,
+} from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { LOGOUT } from "../../reducers/actions";
+import { UserContext } from "../../App";
+
+const UserAvatar = () => {
+	const navigate = useNavigate();
+	const [user, dispatch] = useContext(UserContext);
+
+	const handleMenuClick = ({ key }) => {
+		switch (key) {
+			case "profile":
+				navigate("/profile"); // Replace with your actual route
+				break;
+			case "changePassword":
+				navigate("/change-password"); // Replace with your actual route
+				break;
+			case "logout":
+				dispatch({
+					type: LOGOUT,
+				});
+				console.log("Logging out...");
+				break;
+			default:
+				break;
+		}
+	};
+
+	const menu = (
+		<Menu onClick={handleMenuClick}>
+			<Menu.Item key="profile" icon={<SettingOutlined />}>
+				Cài đặt thông tin cá nhân
+			</Menu.Item>
+			<Menu.Item key="changePassword" icon={<LockOutlined />}>
+				Đổi mật khẩu
+			</Menu.Item>
+			<Menu.Divider />
+			<Menu.Item
+				style={{ color: "#00b14f" }}
+				key="logout"
+				icon={<LogoutOutlined />}
+			>
+				Đăng xuất
+			</Menu.Item>
+		</Menu>
+	);
+
+	return (
+		<Dropdown overlay={menu} trigger={["click"]}>
+			<Button type="link">
+				<Avatar
+					style={{ backgroundColor: "#87d068" }}
+					icon={<UserOutlined />}
+				/>
+			</Button>
+		</Dropdown>
+	);
+};
+
+export default UserAvatar;
