@@ -19,6 +19,8 @@ public class User {
     String id;
     String fullname;
     String password;
+    Boolean gender;
+    String companyName;
     @Column(unique = true)
     String email;
     LocalDate dob;

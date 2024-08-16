@@ -15,7 +15,11 @@ public enum ErrorCode {
     USER_NOT_FOUND(1003, "User not found", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1003, "Unauthorized!", HttpStatus.UNAUTHORIZED),
     ACCESS_DENIED(1003, "Access denied", HttpStatus.FORBIDDEN),
-    INVALID_DOB(1008, "Your age must be at least {min}!", HttpStatus.BAD_REQUEST);
+    INVALID_DOB(1008, "Your age must be at least {min}!", HttpStatus.BAD_REQUEST),
+    ROLE_NOT_FOUND(1006, "Role not existed!", HttpStatus.NOT_FOUND),
+    WORKTYPE_NOT_FOUND(1006, "Work type not existed!", HttpStatus.NOT_FOUND),
+    JOBFIELD_NOT_FOUND(1006, "Job field not existed!", HttpStatus.NOT_FOUND),
+    JOBLOCATION_NOT_FOUND(1006, "Job location not existed!", HttpStatus.NOT_FOUND);
 
 
     private int code;

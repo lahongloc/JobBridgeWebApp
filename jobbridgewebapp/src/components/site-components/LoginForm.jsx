@@ -53,14 +53,7 @@ const LoginForm = () => {
 					payload: currentUser.data.result,
 				});
 
-				messageApi.open({
-					type: "success",
-					content: "Đăng nhập thành công!",
-				});
-
-				setTimeout(() => {
-					navigate(paths.home);
-				}, [1000]);
+				navigate(`${paths.home}?user=true`);
 			}
 		} catch (err) {
 			messageApi.open({

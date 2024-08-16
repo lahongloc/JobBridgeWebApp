@@ -1,18 +1,51 @@
-import { Menu, Dropdown, Button, Space } from "antd";
+import {
+	Menu,
+	Dropdown,
+	Button,
+	Space,
+	Modal,
+	Typography,
+	Radio,
+	Row,
+	Col,
+	Avatar,
+} from "antd";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { paths } from "../authorizations/paths";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../App";
 import { isLogin } from "../authorizations/roleAuth";
 import UserAvatar from "../components/ui components/UserAvatar";
+import { UserOutlined, SolutionOutlined } from "@ant-design/icons";
 
+const { Title, Paragraph } = Typography;
 const Navbar = () => {
+	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [selectedOption, setSelectedOption] = useState(null);
 	const navigate = useNavigate();
 	const [user, dispatch] = useContext(UserContext);
-	useEffect(() => {
-		console.log("jusu: ", user);
-	});
+
+	const showModal = () => {
+		setIsModalVisible(true);
+	};
+
+	const handleOk = () => {
+		if (selectedOption === "applicant") {
+			navigate("/applicant-register");
+		} else if (selectedOption === "recruiter") {
+			navigate("/employer-register");
+		}
+		setIsModalVisible(false);
+	};
+
+	const handleCancel = () => {
+		setIsModalVisible(false);
+	};
+
+	const handleOptionChange = (e) => {
+		setSelectedOption(e.target.value);
+	};
 
 	const menuItems = [
 		{
@@ -166,11 +199,70 @@ const Navbar = () => {
 						</Button>
 						<Button
 							type="primary"
-							onClick={() => navigate(paths["user-register"])}
+							onClick={showModal}
 							style={{ fontWeight: "bold", fontSize: "15px" }}
 						>
 							Đăng ký
 						</Button>
+						<Modal
+							title="Chào bạn,"
+							visible={isModalVisible}
+							onOk={handleOk}
+							onCancel={handleCancel}
+							okText="Xác nhận"
+							cancelText="Hủy"
+							okButtonProps={{ disabled: !selectedOption }} // Disable the confirm button until an option is selected
+						>
+							<Paragraph>
+								Bạn hãy dành ra vài giây để xác nhận thông tin
+								dưới đây nhé!
+							</Paragraph>
+							<Paragraph>
+								Để tối ưu tốt nhất cho trải nghiệm của bạn với
+								JobBridge, vui lòng lựa chọn nhóm phù hợp nhất
+								với bạn:
+							</Paragraph>
+
+							<Radio.Group
+								onChange={handleOptionChange}
+								style={{ width: "100%" }}
+							>
+								<Row gutter={16} align="middle">
+									<Col
+										span={12}
+										style={{ textAlign: "center" }}
+									>
+										<Avatar
+											size={64}
+											icon={<UserOutlined />}
+											style={{
+												backgroundColor: "#87d068",
+												marginBottom: "10px",
+											}}
+										/>
+										<Radio value="applicant">
+											Tôi là ứng viên tìm việc
+										</Radio>
+									</Col>
+									<Col
+										span={12}
+										style={{ textAlign: "center" }}
+									>
+										<Avatar
+											size={64}
+											icon={<SolutionOutlined />}
+											style={{
+												backgroundColor: "#1890ff",
+												marginBottom: "10px",
+											}}
+										/>
+										<Radio value="recruiter">
+											Tôi là nhà tuyển dụng
+										</Radio>
+									</Col>
+								</Row>
+							</Radio.Group>
+						</Modal>
 					</>
 				)}
 				{isLogin(user) && (

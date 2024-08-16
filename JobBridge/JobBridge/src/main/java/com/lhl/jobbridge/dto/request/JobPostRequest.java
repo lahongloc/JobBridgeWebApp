@@ -1,38 +1,30 @@
-package com.lhl.jobbridge.entity;
+package com.lhl.jobbridge.dto.request;
 
-import jakarta.persistence.*;
+import com.lhl.jobbridge.entity.JobField;
+import com.lhl.jobbridge.entity.JobLocation;
+import com.lhl.jobbridge.entity.User;
+import com.lhl.jobbridge.entity.WorkType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
-import java.util.Set;
 
-@Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class JobPost {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
+public class JobPostRequest {
     String jobTitle;
     Integer hiringQuantity;
     String requiredExperience;
-    Date createdDate;
     Date applicationDueDate;
     String jobDescription;
     String requirements;
     String benefits;
     String detailedWorkplace;
     String requiredGender;
-    @ManyToOne
-    WorkType workType;
-    @ManyToOne
-    JobLocation jobLocation;
-    @ManyToOne
-    JobField jobField;
-    @ManyToOne
-    User user;
+    String workType;
+    String jobLocation;
+    String jobField;
 }

@@ -15,11 +15,10 @@ import APIs, { enpoints } from "../../configs/APIs";
 const RegistrationForm = () => {
 	const [loading, setLoading] = useState(false);
 	const [messageApi, contextHolder] = message.useMessage();
-	// const [isSuccess, setIsSuccess] = useState(false);
 	const onFinish = async (user) => {
 		setLoading(true);
 		try {
-			const res = await APIs.post(enpoints["userHandler"], user);
+			const res = await APIs.post(enpoints["applicantRegister"], user);
 			if (res.status === 200) {
 				messageApi.open({
 					type: "success",

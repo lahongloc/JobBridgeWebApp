@@ -23,11 +23,17 @@ import java.util.List;
 public class UserController {
     UserService userService;
 
-    @PostMapping
-    ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request) {
+    @PostMapping("/create-applicant")
+    ApiResponse<User> createApplicant(@RequestBody @Valid UserCreationRequest request) {
         ApiResponse<User> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(userService.createUser(request));
+        apiResponse.setResult(userService.createUser(request, false));
+        return apiResponse;
+    }
 
+    @PostMapping("/create-recruiter")
+    ApiResponse<User> createRecruiter(@RequestBody @Valid UserCreationRequest request) {
+        ApiResponse<User> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(userService.createUser(request, true));
         return apiResponse;
     }
 

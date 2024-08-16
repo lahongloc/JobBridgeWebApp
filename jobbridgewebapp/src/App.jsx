@@ -9,6 +9,9 @@ import { createContext, useReducer } from "react";
 import UserReducer from "./reducers/UserReducer";
 import cookie from "react-cookies";
 import { isLogin } from "./authorizations/roleAuth";
+import Home from "./components/site-components/Home";
+import EmployerRegister from "./components/site-components/EmployerRegister";
+import JobPostingForm from "./components/site-components/JobPostingForm";
 
 export const UserContext = createContext();
 
@@ -21,7 +24,9 @@ const App = () => {
 	return (
 		<BrowserRouter>
 			<UserContext.Provider value={[user, dispatch]} className="App">
-				<Navbar />
+				<div style={{ marginBottom: "5rem" }}>
+					<Navbar />
+				</div>
 				<Routes>
 					{isLogin(user) || (
 						<>
@@ -30,12 +35,22 @@ const App = () => {
 								element={<LoginForm />}
 							/>
 							<Route
-								path={paths["user-register"]}
+								path={paths["applicant-register"]}
 								element={<RegistrationForm />}
 							/>
 						</>
 					)}
+					<Route path={paths.home} element={<Home />} />
+					<Route
+						path={paths["employer-register"]}
+						element={<EmployerRegister />}
+					/>
+					<Route
+						path={paths["job-posting"]}
+						element={<JobPostingForm />}
+					/>
 				</Routes>
+
 				<AppFooter />
 			</UserContext.Provider>
 		</BrowserRouter>

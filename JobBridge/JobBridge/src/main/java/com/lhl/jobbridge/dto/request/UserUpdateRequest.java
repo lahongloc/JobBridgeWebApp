@@ -16,6 +16,8 @@ import java.util.Set;
 public class UserUpdateRequest {
     @Size(min = 8, message = "PASSWORD_INVALID")
     String password;
+    Boolean gender;
+    String companyName;
     @DobConstraint(min = 18, message = "INVALID_DOB")
     LocalDate dob;
     Set<String> roles;

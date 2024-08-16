@@ -17,6 +17,8 @@ public class UserCreationRequest {
     @Size(min = 8, message = "PASSWORD_INVALID")
     String password;
     String email;
+    Boolean gender;
+    String companyName;
     @DobConstraint(min = 18, message = "INVALID_DOB")
     LocalDate dob;
 }

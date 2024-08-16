@@ -3,6 +3,7 @@ package com.lhl.jobbridge.service;
 import com.lhl.jobbridge.dto.request.UserCreationRequest;
 import com.lhl.jobbridge.dto.request.UserUpdateRequest;
 import com.lhl.jobbridge.dto.response.UserResponse;
+import com.lhl.jobbridge.entity.Role;
 import com.lhl.jobbridge.entity.User;
 import com.lhl.jobbridge.exception.AppException;
 import com.lhl.jobbridge.exception.ErrorCode;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +34,7 @@ public class UserService {
     PasswordEncoder passwordEncoder;
     RoleRepository roleRepository;
 
-    public User createUser(UserCreationRequest request) {
+    public User createUser(UserCreationRequest request, boolean isRecuiter) {
         if (this.userRepository.existsUserByEmail(request.getEmail())) {
             throw new RuntimeException("ErrorCode.USER_EXISTED");
         }
@@ -43,8 +45,17 @@ public class UserService {
         log.info("user la: " + user);
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 
-//        HashSet<String> roles = new HashSet<>();
-//        roles.add()
+        Set<Role> roles = new HashSet<>();
+        Role role;
+        if (isRecuiter) {
+            role = this.roleRepository.findById("RECRUITER").orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
+        } else {
+            role = this.roleRepository.findById("APPLICANT").orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
+        }
+        roles.add(role);
+        user.setRoles(roles);
+
+
         return userRepository.save(user);
     }
 

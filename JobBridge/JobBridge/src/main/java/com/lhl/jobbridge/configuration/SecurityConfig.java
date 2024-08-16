@@ -28,8 +28,11 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENPOINTS = {"/users",
+    private final String[] POST_PUBLIC_ENPOINTS = {"/users/**",
             "/auth/log-in", "/auth/introspect", "/auth/log-out", "/auth/refresh"};
+
+    private final String[] GET_PUBLIC_ENPOINTS = {"/workTypes", "/jobFields", "/jobLocations"};
+
 
     @Value("${jwt.signerKey}")
     private String signerKey;
@@ -40,7 +43,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.POST, this.PUBLIC_ENPOINTS).permitAll()
+                request.requestMatchers(HttpMethod.POST, this.POST_PUBLIC_ENPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET, this.GET_PUBLIC_ENPOINTS).permitAll()
                         .anyRequest().authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
@@ -59,7 +63,7 @@ public class SecurityConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://localhost:5173");
+        corsConfiguration.addAllowedOrigin("*"); // adjust later
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");
 

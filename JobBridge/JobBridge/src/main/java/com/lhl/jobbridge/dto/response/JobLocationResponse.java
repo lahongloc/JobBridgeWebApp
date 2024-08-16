@@ -7,20 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
-import java.util.Set;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserResponse {
+public class JobLocationResponse {
     String id;
-    String fullname;
-    Boolean gender;
-    String companyName;
-    String email;
-    LocalDate dob;
-    Set<RoleResponse> roles;
+    String name;
 }

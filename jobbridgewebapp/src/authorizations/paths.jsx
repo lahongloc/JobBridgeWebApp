@@ -1,5 +1,7 @@
 export const paths = {
-	"user-register": "/user-register",
+	"applicant-register": "/applicant-register",
 	"user-login": "/user-login",
-	home: "/",
+	home: "/jobs-news",
+	"employer-register": "/employer-register",
+	"job-posting": "/job-posting",
 };
