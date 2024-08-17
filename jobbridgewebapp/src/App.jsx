@@ -12,6 +12,7 @@ import { isLogin } from "./authorizations/roleAuth";
 import Home from "./components/site-components/Home";
 import EmployerRegister from "./components/site-components/EmployerRegister";
 import JobPostingForm from "./components/site-components/JobPostingForm";
+import JobList from "./components/site-components/JobList";
 
 export const UserContext = createContext();
 
@@ -40,6 +41,7 @@ const App = () => {
 							/>
 						</>
 					)}
+					<Route path={paths["posted-jobs"]} element={<JobList />} />
 					<Route path={paths.home} element={<Home />} />
 					<Route
 						path={paths["employer-register"]}

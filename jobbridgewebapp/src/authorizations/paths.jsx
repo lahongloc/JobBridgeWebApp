@@ -4,4 +4,5 @@ export const paths = {
 	home: "/jobs-news",
 	"employer-register": "/employer-register",
 	"job-posting": "/job-posting",
+	"posted-jobs": "/posted-jobs",
 };

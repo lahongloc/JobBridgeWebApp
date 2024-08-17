@@ -21,6 +21,7 @@ public class JobPostRequest {
     Date applicationDueDate;
     String jobDescription;
     String requirements;
+    String salaryRange;
     String benefits;
     String detailedWorkplace;
     String requiredGender;

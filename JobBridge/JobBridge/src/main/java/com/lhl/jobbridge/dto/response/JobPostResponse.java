@@ -27,7 +27,9 @@ public class JobPostResponse {
     String requiredExperience;
     Date applicationDueDate;
     String jobDescription;
+    Date createdDate;
     String requirements;
+    String salaryRange;
     String benefits;
     String detailedWorkplace;
     String requiredGender;

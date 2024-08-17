@@ -11,9 +11,13 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.Date;
 
@@ -28,7 +32,6 @@ public class JobPostService {
     JobFieldRepository jobFieldRepository;
     JobPostMapper jobPostMapper;
     UserRepository userRepository;
-
 
     @PreAuthorize("hasRole('RECRUITER')")
     public JobPostResponse createJobPost(JobPostRequest request) {
@@ -59,5 +62,19 @@ public class JobPostService {
         this.jobPostRepository.save(jobPost);
 
         return this.jobPostMapper.toJobPostResponse(jobPost);
+    }
+
+    @PreAuthorize("hasRole('RECRUITER')")
+    public Page<JobPostResponse> getJobPostsByRecruiter(int pageNumber, int pageSize) {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        User user = this.userRepository.findByEmail(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        // Điều chỉnh pageNumber để bắt đầu từ 0
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+        return this.jobPostRepository.findByUser(user, pageable)
+                .map(this.jobPostMapper::toJobPostResponse);
     }
 }

@@ -13,6 +13,7 @@ export const enpoints = {
 	jobFieldsHandler: "/jobFields",
 	jobLocationsHandler: "/jobLocations",
 	jobPostHandlder: "/jobPosts",
+	getJobPostsByUser: "/jobPosts/get-by-user",
 };
 
 export default axios.create({

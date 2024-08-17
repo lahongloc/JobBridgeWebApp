@@ -18,6 +18,7 @@ import dayjs from "dayjs";
 import { message, Space, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import { paths } from "../../authorizations/paths";
+import SalaryRange from "../ui components/SalaryRange";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -53,6 +54,11 @@ const JobPostingForm = () => {
 	}, []);
 
 	const handleFinish = async (values) => {
+		console.log("valuela; ", values);
+		if (Array.isArray(values.salaryRange)) {
+			const [min, max] = values.salaryRange;
+			values.salaryRange = `${min} - ${max} triệu`;
+		}
 		try {
 			const res = await APIs.post(enpoints["jobPostHandlder"], values, {
 				headers: {
@@ -130,6 +136,25 @@ const JobPostingForm = () => {
 								min={1}
 								type="number"
 								placeholder="Nhập số lượng tuyển"
+							/>
+						</Form.Item>
+					</Col>
+				</Row>
+
+				<Row gutter={16}>
+					<Col span={12}>
+						<Form.Item
+							name="salaryRange"
+							label="Khoảng lương"
+							rules={[
+								{
+									required: true,
+									message: "Vui lòng nhập khoảng lương!",
+								},
+							]}
+						>
+							<SalaryRange
+								onChange={(value) => console.log(value)}
 							/>
 						</Form.Item>
 					</Col>

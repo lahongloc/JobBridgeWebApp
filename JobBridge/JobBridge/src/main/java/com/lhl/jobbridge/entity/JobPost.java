@@ -27,6 +27,7 @@ public class JobPost {
     String benefits;
     String detailedWorkplace;
     String requiredGender;
+    String salaryRange;
     @ManyToOne
     WorkType workType;
     @ManyToOne
