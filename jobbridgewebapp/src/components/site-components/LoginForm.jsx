@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form, Input, Button, Typography, Divider } from "antd";
 import {
 	MailOutlined,
@@ -70,6 +70,21 @@ const LoginForm = () => {
 		// Thay đổi logic ở đây để xử lý đăng nhập với provider
 		console.log(`Đăng nhập bằng ${provider}`);
 	};
+
+	const loadJobPosts = async () => {
+		try {
+			const res = await APIs.post(enpoints["searchJobPost"], {
+				pageNumber: 1,
+			});
+			console.log("data laa: ", res.data);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	useEffect(() => {
+		loadJobPosts();
+	}, []);
 
 	return (
 		<div

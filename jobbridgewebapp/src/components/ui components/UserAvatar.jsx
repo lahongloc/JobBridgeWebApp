@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { LOGOUT } from "../../reducers/actions";
 import { UserContext } from "../../App";
 
-const UserAvatar = () => {
+const UserAvatar = ({ icon = <UserOutlined /> }) => {
 	const navigate = useNavigate();
 	const [user, dispatch] = useContext(UserContext);
 
@@ -57,7 +57,8 @@ const UserAvatar = () => {
 			<Button type="link">
 				<Avatar
 					style={{ backgroundColor: "#87d068" }}
-					icon={<UserOutlined />}
+					icon={typeof icon === "string" ? null : icon}
+					src={typeof icon === "string" ? icon : undefined}
 				/>
 			</Button>
 		</Dropdown>

@@ -39,7 +39,22 @@ const EmployerRegister = () => {
 		delete values.confirmPassword;
 
 		try {
-			const res = await APIs.post(enpoints["recruiterRegister"], user);
+			const formData = new FormData();
+			for (const key in user) {
+				if (user.hasOwnProperty(key)) {
+					formData.append(key, user[key]);
+				}
+			}
+
+			const res = await APIs.post(
+				enpoints["recruiterRegister"],
+				formData,
+				{
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				},
+			);
 			if (res.status === 200) {
 				messageApi.open({
 					type: "success",

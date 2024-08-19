@@ -1,5 +1,7 @@
 package com.lhl.jobbridge.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.lhl.jobbridge.dto.request.UserCreationRequest;
 import com.lhl.jobbridge.dto.request.UserUpdateRequest;
 import com.lhl.jobbridge.dto.response.UserResponse;
@@ -20,8 +22,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -33,16 +37,21 @@ public class UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
     RoleRepository roleRepository;
+    Cloudinary cloudinary;
 
-    public User createUser(UserCreationRequest request, boolean isRecuiter) {
+    public User createUser(UserCreationRequest request, boolean isRecuiter) throws IOException {
         if (this.userRepository.existsUserByEmail(request.getEmail())) {
             throw new RuntimeException("ErrorCode.USER_EXISTED");
         }
 
 
-        log.info("request la: " + request);
         User user = this.userMapper.toUser(request);
-        log.info("user la: " + user);
+        if (request.getAvatar() != null && !request.getAvatar().isEmpty()) {
+            Map res = this.cloudinary.uploader()
+                    .upload(request.getAvatar().getBytes(), ObjectUtils.asMap("resource_type", "auto"));
+            user.setAvatar(res.get("secure_url").toString());
+        }
+
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 
         Set<Role> roles = new HashSet<>();

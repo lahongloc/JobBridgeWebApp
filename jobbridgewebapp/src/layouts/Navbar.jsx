@@ -1,3 +1,4 @@
+import React, { useState, useContext } from "react";
 import {
 	Menu,
 	Dropdown,
@@ -13,16 +14,17 @@ import {
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { paths } from "../authorizations/paths";
-import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../App";
 import { isLogin } from "../authorizations/roleAuth";
 import UserAvatar from "../components/ui components/UserAvatar";
 import { UserOutlined, SolutionOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
+
 const Navbar = () => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [selectedOption, setSelectedOption] = useState(null);
+	const [selectedMenu, setSelectedMenu] = useState(null); // State để lưu menu được chọn
 	const navigate = useNavigate();
 	const [user, dispatch] = useContext(UserContext);
 
@@ -52,7 +54,7 @@ const Navbar = () => {
 			key: "jobs",
 			label: "Việc làm",
 			items: [
-				{ key: "1", label: "Tìm việc", link: "/jobs/search" },
+				{ key: "1", label: "Tìm việc", link: paths.home },
 				{
 					key: "2",
 					label: "Việc làm theo ngành nghề",
@@ -69,8 +71,9 @@ const Navbar = () => {
 			key: "resume",
 			label: "Hồ sơ & CV",
 			items: [
-				{ key: "1", label: "Tạo CV mới", link: "/resume/create" },
-				{ key: "2", label: "Xem Hồ sơ", link: "/resume/view" },
+				{ key: "1", label: "Quản lý CV", link: "/resume-management" },
+				{ key: "2", label: "Tải CV lên", link: paths["upload-cv"] },
+				{ key: "3", label: "Xem Hồ sơ", link: "/resume/view" },
 			],
 		},
 		{
@@ -116,8 +119,9 @@ const Navbar = () => {
 	];
 
 	// Handle menu item click
-	const handleMenuClick = (link) => {
+	const handleMenuClick = (link, menuKey) => {
 		navigate(link);
+		setSelectedMenu(menuKey); // Cập nhật menu được chọn
 	};
 
 	// Dropdown menu generator
@@ -129,7 +133,7 @@ const Navbar = () => {
 					{menu.items.map((item) => (
 						<Menu.Item
 							key={item.key}
-							onClick={() => handleMenuClick(item.link)}
+							onClick={() => handleMenuClick(item.link, menu.key)}
 						>
 							{item.label}
 						</Menu.Item>
@@ -143,8 +147,11 @@ const Navbar = () => {
 				style={{
 					fontWeight: "bold",
 					fontSize: "15px",
-					color: "black",
+					color: selectedMenu === menu.key ? "#1890ff" : "black", // Đổi màu khi menu được chọn
 				}}
+				onClick={
+					() => handleMenuClick(menu.items[0].link, menu.key) // Navigate đến item đầu tiên
+				}
 			>
 				{menu.label}
 			</Button>
@@ -188,7 +195,7 @@ const Navbar = () => {
 			</Space>
 
 			<Space>
-				{isLogin(user) || (
+				{!isLogin(user) && (
 					<>
 						<Button
 							type="default"
@@ -267,7 +274,7 @@ const Navbar = () => {
 				)}
 				{isLogin(user) && (
 					<>
-						<UserAvatar />
+						<UserAvatar icon={user.avatar} />
 					</>
 				)}
 			</Space>

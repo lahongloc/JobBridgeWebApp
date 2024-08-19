@@ -14,6 +14,8 @@ export const enpoints = {
 	jobLocationsHandler: "/jobLocations",
 	jobPostHandlder: "/jobPosts",
 	getJobPostsByUser: "/jobPosts/get-by-user",
+	searchJobPost: "/jobPosts/search-jobPost",
+	uploadCV: "/curriculumVitaes/upload",
 };
 
 export default axios.create({

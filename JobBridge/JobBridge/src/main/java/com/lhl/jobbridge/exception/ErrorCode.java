@@ -19,7 +19,10 @@ public enum ErrorCode {
     ROLE_NOT_FOUND(1006, "Role not existed!", HttpStatus.NOT_FOUND),
     WORKTYPE_NOT_FOUND(1006, "Work type not existed!", HttpStatus.NOT_FOUND),
     JOBFIELD_NOT_FOUND(1006, "Job field not existed!", HttpStatus.NOT_FOUND),
-    JOBLOCATION_NOT_FOUND(1006, "Job location not existed!", HttpStatus.NOT_FOUND);
+    JOBLOCATION_NOT_FOUND(1006, "Job location not existed!", HttpStatus.NOT_FOUND),
+    FILE_EMPTY(1003, "File is empty!", HttpStatus.BAD_REQUEST),
+    FILE_FORMAT_ERROR(1003, "File is not in the right format", HttpStatus.BAD_REQUEST),
+    FILE_UPLOAD_ERROR(1003, "Something went wrong, uploading failed", HttpStatus.BAD_REQUEST);
 
 
     private int code;

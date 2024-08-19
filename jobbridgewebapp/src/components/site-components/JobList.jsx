@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
 	Card,
 	Row,
@@ -12,20 +12,21 @@ import {
 import APIs, { enpoints } from "../../configs/APIs";
 import cookie from "react-cookies";
 import JobCard from "../ui components/JobCard";
+import CompanyInfo from "../ui components/CompanyInfo";
 
 const { Title } = Typography;
 const { Content } = Layout;
 
 const JobList = () => {
 	const [jobs, setJobs] = useState([]);
-	const [total, setTotal] = useState(0); // Tổng số công việc
+	const [total, setTotal] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [pageSize] = useState(5); // Số công việc mỗi trang
+	const [pageSize, setPageSize] = useState();
 
 	const loadJobPosts = async (page = 1) => {
 		try {
 			const res = await APIs.get(
-				`${enpoints["getJobPostsByUser"]}/page=${page}&size=${pageSize}`,
+				`${enpoints["getJobPostsByUser"]}/page=${page}`,
 				{
 					headers: {
 						Authorization: `Bearer ${cookie.load("token")}`,
@@ -33,15 +34,17 @@ const JobList = () => {
 				},
 			);
 
-			console.log(res.data.result);
+			console.log("dataa: ", res.data);
 			setJobs(res.data.result.content);
-			setTotal(res.data.result.totalElements); // Tổng số công việc từ API
+			setTotal(res.data.result.totalElements);
+			setPageSize(res.data.result.size);
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
 	useEffect(() => {
+		console.log(cookie.load("user"));
 		loadJobPosts(currentPage);
 	}, [currentPage]);
 
@@ -72,7 +75,7 @@ const JobList = () => {
 				<Title level={3} style={{ marginBottom: "24px" }}>
 					Danh sách công việc đã đăng tuyển
 				</Title>
-				<div
+				{/* <div
 					style={{
 						textAlign: "center",
 						marginTop: "24px",
@@ -86,7 +89,21 @@ const JobList = () => {
 						onChange={handlePageChange}
 						showSizeChanger={false} // Không hiển thị thay đổi kích thước trang
 					/>
-				</div>
+				</div> */}
+				<Row
+					justify="start"
+					style={{ marginTop: "20px", marginBottom: "20px" }}
+				>
+					<Col>
+						<Pagination
+							current={currentPage}
+							pageSize={pageSize}
+							total={total}
+							onChange={handlePageChange}
+							showSizeChanger={false}
+						/>
+					</Col>
+				</Row>
 
 				<div style={{ display: "flex" }}>
 					<div style={{ width: "70%", marginRight: "2%" }}>
@@ -102,8 +119,7 @@ const JobList = () => {
 							/>
 						))}
 					</div>
-
-					<div
+					{/* <div
 						style={{
 							width: "30%",
 							border: "2px solid #1890ff",
@@ -115,12 +131,13 @@ const JobList = () => {
 							alignItems: "center",
 							justifyContent: "center",
 						}}
-					>
-						{/* Component hiển thị thêm thông tin ở đây */}
+					> */}
+					{/* Component hiển thị thêm thông tin ở đây
 						<Title level={4} style={{ color: "#1890ff" }}>
 							Thông tin thêm
-						</Title>
-					</div>
+						</Title> */}
+					{/* </div> */}
+					<CompanyInfo companyInfo={cookie.load("user")} />
 				</div>
 				<div
 					style={{
@@ -129,13 +146,20 @@ const JobList = () => {
 						marginTop: "25px",
 					}}
 				>
-					<Pagination
-						current={currentPage}
-						pageSize={pageSize}
-						total={total}
-						onChange={handlePageChange}
-						showSizeChanger={false} // Không hiển thị thay đổi kích thước trang
-					/>
+					<Row
+						justify="end"
+						style={{ marginTop: "20px", marginRight: "27.5rem" }}
+					>
+						<Col>
+							<Pagination
+								current={currentPage}
+								pageSize={pageSize}
+								total={total}
+								onChange={handlePageChange}
+								showSizeChanger={false}
+							/>
+						</Col>
+					</Row>
 				</div>
 			</Content>
 		</Layout>

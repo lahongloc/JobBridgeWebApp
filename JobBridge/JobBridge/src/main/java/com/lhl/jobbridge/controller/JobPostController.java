@@ -3,9 +3,8 @@ package com.lhl.jobbridge.controller;
 
 import com.lhl.jobbridge.dto.request.ApiResponse;
 import com.lhl.jobbridge.dto.request.JobPostRequest;
-import com.lhl.jobbridge.dto.response.JobFieldResponse;
+import com.lhl.jobbridge.dto.request.JobPostSearchRequest;
 import com.lhl.jobbridge.dto.response.JobPostResponse;
-import com.lhl.jobbridge.service.JobFieldService;
 import com.lhl.jobbridge.service.JobPostService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,20 +30,22 @@ public class JobPostController {
                 .build();
     }
 
-//    @GetMapping("/get-by-user/page={pageNumber}")
-//    ApiResponse<List<JobPostResponse>> getByUser(@PathVariable int pageNumber) {
-//        return ApiResponse.<List<JobPostResponse>>builder()
-//                .result(this.jobPostService.getJobPostsByRecruiter())
-//                .build();
-//    }
 
-    @GetMapping("/get-by-user/page={pageNumber}&size={pageSize}")
+    @GetMapping("/get-by-user/page={pageNumber}")
     ApiResponse<Page<JobPostResponse>> getByUser(
-            @PathVariable int pageNumber,
-            @PathVariable int pageSize) {
+            @PathVariable int pageNumber
+    ) {
         return ApiResponse.<Page<JobPostResponse>>builder()
-                .result(this.jobPostService.getJobPostsByRecruiter(pageNumber, pageSize))
+                .result(this.jobPostService.getJobPostsByRecruiter(pageNumber))
                 .build();
     }
+
+    @PostMapping("/search-jobPost")
+    ApiResponse<Page<JobPostResponse>> getAll(@RequestBody JobPostSearchRequest request) {
+        return ApiResponse.<Page<JobPostResponse>>builder()
+                .result(this.jobPostService.getAll(request))
+                .build();
+    }
+
 
 }

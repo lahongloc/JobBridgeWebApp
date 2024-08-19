@@ -18,7 +18,21 @@ const RegistrationForm = () => {
 	const onFinish = async (user) => {
 		setLoading(true);
 		try {
-			const res = await APIs.post(enpoints["applicantRegister"], user);
+			const formData = new FormData();
+			for (const key in user) {
+				if (user.hasOwnProperty(key)) {
+					formData.append(key, user[key]);
+				}
+			}
+			const res = await APIs.post(
+				enpoints["applicantRegister"],
+				formData,
+				{
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				},
+			);
 			if (res.status === 200) {
 				messageApi.open({
 					type: "success",

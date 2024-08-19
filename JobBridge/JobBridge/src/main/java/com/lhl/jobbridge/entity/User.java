@@ -20,6 +20,7 @@ public class User {
     String fullname;
     String password;
     Boolean gender;
+    String avatar;
     String companyName;
     @Column(unique = true)
     String email;

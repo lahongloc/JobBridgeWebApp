@@ -1,15 +1,18 @@
 package com.lhl.jobbridge.configuration;
 
+import com.cloudinary.Cloudinary;
+import org.springframework.beans.factory.annotation.Value;
+import com.cloudinary.utils.ObjectUtils;
 import com.lhl.jobbridge.entity.*;
 import com.lhl.jobbridge.repository.RoleRepository;
 import com.lhl.jobbridge.repository.UserRepository;
-import com.lhl.jobbridge.repository.WorkTypeRepository;
 import com.lhl.jobbridge.service.JobFieldService;
 import com.lhl.jobbridge.service.JobLocationService;
 import com.lhl.jobbridge.service.WorkTypeService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -31,12 +34,32 @@ public class ApplicationInitConfig {
     JobLocationService jobLocationService;
     JobFieldService jobFieldService;
 
+    @NonFinal
+    @Value("${cloudinary.cloud-name}")
+    String CLOUD_NAME;
+
+    @NonFinal
+    @Value("${cloudinary.api-key}")
+    String API_KEY;
+
+    @NonFinal
+    @Value("${cloudinary.api-secret}")
+    String API_SECRET;
+
+    @Bean
+    public Cloudinary cloudinary() {
+        return new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", CLOUD_NAME,
+                "api_key", API_KEY,
+                "api_secret", API_SECRET));
+    }
+
     @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository) {
         return args -> {
-//            initializeWorkType();
-//            initilaizeJobLocation();
-//            initializeJobField();
+            initializeWorkType();
+            initilaizeJobLocation();
+            initializeJobField();
             Role adminRole = Role.builder().name("ADMIN").description("admin role").build();
             Role applicantRole = Role.builder().name("APPLICANT").description("applicant role").build();
             Role recruiterRole = Role.builder().name("RECRUITER").description("recruiter role").build();

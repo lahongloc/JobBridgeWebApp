@@ -5,4 +5,5 @@ export const paths = {
 	"employer-register": "/employer-register",
 	"job-posting": "/job-posting",
 	"posted-jobs": "/posted-jobs",
+	"upload-cv": "/upload-cv",
 };

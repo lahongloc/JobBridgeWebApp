@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
 	Form,
 	Input,
@@ -19,42 +19,26 @@ import { message, Space, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import { paths } from "../../authorizations/paths";
 import SalaryRange from "../ui components/SalaryRange";
+import {
+	JobFieldContext,
+	JobLocationContext,
+	WorkTypeContext,
+} from "../../App";
 
 const { Option } = Select;
 const { TextArea } = Input;
 const { Title } = Typography;
 
 const JobPostingForm = () => {
-	const [workTypes, setWorkTypes] = useState([]);
-	const [jobFields, setJobFields] = useState([]);
-	const [jobLocations, setJobLocations] = useState([]);
+	const workTypes = useContext(WorkTypeContext);
+	const jobFields = useContext(JobFieldContext);
+	const jobLocations = useContext(JobLocationContext);
+
 	const [loading, setLoading] = useState(false);
 	const [messageApi, contextHolder] = message.useMessage();
 	const navigate = useNavigate();
 
-	const loadResources = async () => {
-		try {
-			const resWorkTypes = await APIs.get(enpoints["workTypesHandler"]);
-			setWorkTypes(resWorkTypes.data.result);
-
-			const resJobFields = await APIs.get(enpoints["jobFieldsHandler"]);
-			setJobFields(resJobFields.data.result);
-
-			const resJobLocations = await APIs.get(
-				enpoints["jobLocationsHandler"],
-			);
-			setJobLocations(resJobLocations.data.result);
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
-	useEffect(() => {
-		loadResources();
-	}, []);
-
 	const handleFinish = async (values) => {
-		console.log("valuela; ", values);
 		if (Array.isArray(values.salaryRange)) {
 			const [min, max] = values.salaryRange;
 			values.salaryRange = `${min} - ${max} triệu`;
