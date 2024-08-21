@@ -47,5 +47,12 @@ public class JobPostController {
                 .build();
     }
 
+    @GetMapping("/jobPostId={jobPostId}")
+    ApiResponse<JobPostResponse> getById(@PathVariable String jobPostId) {
+        return ApiResponse.<JobPostResponse>builder()
+                .result(this.jobPostService.getById(jobPostId))
+                .build();
+    }
+
 
 }

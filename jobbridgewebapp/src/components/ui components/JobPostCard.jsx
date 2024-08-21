@@ -5,11 +5,14 @@ import {
 	MoneyCollectOutlined,
 	EnvironmentOutlined,
 } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { paths } from "../../authorizations/paths";
 
 const { Title, Text } = Typography;
 
 const JobPostCard = ({ jobPost }) => {
 	const [isHovered, setIsHovered] = useState(false);
+	const navigate = useNavigate();
 
 	const truncateTitle = (title, length) => {
 		return title.length > length
@@ -20,6 +23,9 @@ const JobPostCard = ({ jobPost }) => {
 	return (
 		<Card
 			hoverable
+			onClick={() =>
+				navigate(`${paths["job-detail"]}?jobPostId=${jobPost.id}`)
+			}
 			style={{
 				borderRadius: "8px",
 				boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",

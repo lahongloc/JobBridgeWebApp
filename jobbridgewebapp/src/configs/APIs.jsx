@@ -16,6 +16,7 @@ export const enpoints = {
 	getJobPostsByUser: "/jobPosts/get-by-user",
 	searchJobPost: "/jobPosts/search-jobPost",
 	uploadCV: "/curriculumVitaes/upload",
+	getCVsByUser: "/curriculumVitaes/get-cvs-by-user",
 };
 
 export default axios.create({

@@ -16,6 +16,7 @@ public class Application {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
+    @Column(columnDefinition = "TEXT")
     String coverLetter;
     Date createdDate;
     @ManyToOne

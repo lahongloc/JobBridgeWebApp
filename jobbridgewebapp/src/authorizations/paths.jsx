@@ -6,4 +6,6 @@ export const paths = {
 	"job-posting": "/job-posting",
 	"posted-jobs": "/posted-jobs",
 	"upload-cv": "/upload-cv",
+	"job-detail": "/job-detail",
+	"resume-management": "/resume-management",
 };

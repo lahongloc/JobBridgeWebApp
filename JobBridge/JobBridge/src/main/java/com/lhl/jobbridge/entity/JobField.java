@@ -18,4 +18,5 @@ public class JobField {
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
     String name;
+    String englishName;
 }

@@ -31,7 +31,7 @@ public class SecurityConfig {
     private final String[] POST_PUBLIC_ENPOINTS = {"/users/**",
             "/auth/log-in", "/auth/introspect", "/auth/log-out", "/auth/refresh", "/jobPosts/**"};
 
-    private final String[] GET_PUBLIC_ENPOINTS = {"/workTypes", "/jobFields", "/jobLocations"};
+    private final String[] GET_PUBLIC_ENPOINTS = {"/workTypes", "/jobFields", "/jobLocations", "/jobPosts/**"};
 
 
     @Value("${jwt.signerKey}")

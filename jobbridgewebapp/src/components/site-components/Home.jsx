@@ -29,8 +29,6 @@ import {
 	WorkTypeContext,
 } from "../../App";
 import { paths } from "../../authorizations/paths";
-import MyCarousel from "../ui components/MyCarousel";
-import CVUpload from "./CVUpload";
 
 const { Option } = Select;
 

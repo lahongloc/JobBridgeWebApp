@@ -16,4 +16,6 @@ public class CurriculumVitae {
     String id;
     String name;
     String filePath;
+    @OneToOne
+    JobField jobField;
 }

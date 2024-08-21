@@ -71,21 +71,6 @@ const LoginForm = () => {
 		console.log(`Đăng nhập bằng ${provider}`);
 	};
 
-	const loadJobPosts = async () => {
-		try {
-			const res = await APIs.post(enpoints["searchJobPost"], {
-				pageNumber: 1,
-			});
-			console.log("data laa: ", res.data);
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
-	useEffect(() => {
-		loadJobPosts();
-	}, []);
-
 	return (
 		<div
 			style={{

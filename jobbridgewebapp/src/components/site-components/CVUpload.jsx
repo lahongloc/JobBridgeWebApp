@@ -8,6 +8,8 @@ import {
 	Col,
 	Space,
 	Input,
+	message,
+	Spin,
 } from "antd";
 import cookie from "react-cookies";
 import { UploadOutlined, FilePdfOutlined } from "@ant-design/icons";
@@ -19,15 +21,18 @@ const CVUpload = () => {
 	const [file, setFile] = useState(null);
 	const [cvName, setCvName] = useState(""); // State để lưu tên CV
 
+	const [loading, setLoading] = useState(false);
+	const [messageApi, contextHolder] = message.useMessage();
+
 	const props = {
 		beforeUpload: (file) => {
 			const isPdf = file.type === "application/pdf";
 			if (!isPdf) {
-				alert("Bạn chỉ có thể upload file PDF!");
+				message.error("Bạn chỉ có thể upload file PDF!");
 			}
 			const isLt5MB = file.size / 1024 / 1024 < 5;
 			if (!isLt5MB) {
-				alert("File phải có dung lượng không quá 5MB!");
+				message.error("File phải có dung lượng không quá 5MB!");
 			}
 			return isPdf && isLt5MB;
 		},
@@ -45,6 +50,7 @@ const CVUpload = () => {
 	};
 
 	const handleUpload = async () => {
+		setLoading(true);
 		try {
 			const formData = new FormData();
 			formData.append("name", cvName);
@@ -55,10 +61,21 @@ const CVUpload = () => {
 					"Content-Type": "multipart/form-data",
 				},
 			});
+			setFile(null);
+			setCvName("");
+			messageApi.open({
+				type: "success",
+				content: "Tải lên CV thành công!",
+			});
 			console.log("thanh cong");
 		} catch (err) {
-			console.log("that bai");
+			messageApi.open({
+				type: "error",
+				content: "Tải lên CV thất bại!",
+			});
 			console.error(err);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -73,6 +90,7 @@ const CVUpload = () => {
 				boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
 			}}
 		>
+			{contextHolder}
 			<Title
 				level={3}
 				style={{
@@ -157,8 +175,13 @@ const CVUpload = () => {
 				</Col>
 			</Row>
 			<Row justify="center" style={{ marginTop: "20px" }}>
-				<Button type="primary" onClick={handleUpload}>
+				<Button
+					disabled={loading}
+					type="primary"
+					onClick={handleUpload}
+				>
 					Tải CV lên
+					{loading && <Spin />}
 				</Button>
 			</Row>
 		</div>

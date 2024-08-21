@@ -17,5 +17,6 @@ public interface JobPostMapper {
 
     @Mapping(source = "user", target = "user")
     @Mapping(source = "createdDate", target = "createdDate")
+    @Mapping(source = "id", target = "id")
     JobPostResponse toJobPostResponse(JobPost jobPost);
 }

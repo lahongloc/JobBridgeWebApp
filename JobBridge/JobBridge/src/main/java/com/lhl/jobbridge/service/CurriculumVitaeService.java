@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -73,6 +74,16 @@ public class CurriculumVitaeService {
         } catch (IOException e) {
             throw new AppException(ErrorCode.FILE_UPLOAD_ERROR);
         }
+    }
+
+    public List<CurriculumVitaeResponse> getCVByApplicant() {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        User user = this.userRepository.findByEmail(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        return user.getCurriculumVitaes().stream()
+                .map(this.curriculumVitaeMapper::toCurriculumVitaeResponse).toList();
     }
 
 

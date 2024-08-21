@@ -34,7 +34,6 @@ const JobList = () => {
 				},
 			);
 
-			console.log("dataa: ", res.data);
 			setJobs(res.data.result.content);
 			setTotal(res.data.result.totalElements);
 			setPageSize(res.data.result.size);
@@ -44,7 +43,7 @@ const JobList = () => {
 	};
 
 	useEffect(() => {
-		console.log(cookie.load("user"));
+		console.log("user la: ", cookie.load("user"));
 		loadJobPosts(currentPage);
 	}, [currentPage]);
 

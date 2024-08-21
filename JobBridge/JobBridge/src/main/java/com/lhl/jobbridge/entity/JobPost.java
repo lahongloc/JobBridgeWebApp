@@ -22,8 +22,11 @@ public class JobPost {
     String requiredExperience;
     Date createdDate;
     Date applicationDueDate;
+    @Column(columnDefinition = "TEXT")
     String jobDescription;
+    @Column(columnDefinition = "TEXT")
     String requirements;
+    @Column(columnDefinition = "TEXT")
     String benefits;
     String detailedWorkplace;
     String requiredGender;

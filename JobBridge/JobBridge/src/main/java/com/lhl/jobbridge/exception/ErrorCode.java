@@ -22,7 +22,8 @@ public enum ErrorCode {
     JOBLOCATION_NOT_FOUND(1006, "Job location not existed!", HttpStatus.NOT_FOUND),
     FILE_EMPTY(1003, "File is empty!", HttpStatus.BAD_REQUEST),
     FILE_FORMAT_ERROR(1003, "File is not in the right format", HttpStatus.BAD_REQUEST),
-    FILE_UPLOAD_ERROR(1003, "Something went wrong, uploading failed", HttpStatus.BAD_REQUEST);
+    FILE_UPLOAD_ERROR(1003, "Something went wrong, uploading failed", HttpStatus.BAD_REQUEST),
+    JOBPOST_NOT_FOUND(1006, "Jobpost not found", HttpStatus.NOT_FOUND);
 
 
     private int code;

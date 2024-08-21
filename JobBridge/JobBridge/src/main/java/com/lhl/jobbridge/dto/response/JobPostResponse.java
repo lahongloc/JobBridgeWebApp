@@ -22,6 +22,7 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JobPostResponse {
+    String id;
     String jobTitle;
     Integer hiringQuantity;
     String requiredExperience;

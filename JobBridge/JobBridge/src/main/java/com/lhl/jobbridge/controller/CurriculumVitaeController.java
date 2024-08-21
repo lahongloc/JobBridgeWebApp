@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/curriculumVitaes")
@@ -30,6 +31,13 @@ public class CurriculumVitaeController {
     ApiResponse<CurriculumVitaeResponse> upload(@ModelAttribute CurriculumVitaeRequest request) throws IOException {
         return ApiResponse.<CurriculumVitaeResponse>builder()
                 .result(this.curriculumVitaeService.uploadCV(request))
+                .build();
+    }
+
+    @GetMapping("/get-cvs-by-user")
+    ApiResponse<List<CurriculumVitaeResponse>> getCVsByUser() {
+        return ApiResponse.<List<CurriculumVitaeResponse>>builder()
+                .result(this.curriculumVitaeService.getCVByApplicant())
                 .build();
     }
 }
