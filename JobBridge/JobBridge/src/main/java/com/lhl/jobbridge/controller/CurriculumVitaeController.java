@@ -40,4 +40,10 @@ public class CurriculumVitaeController {
                 .result(this.curriculumVitaeService.getCVByApplicant())
                 .build();
     }
+
+    @DeleteMapping("/{curriculumVitaeId}")
+    ApiResponse<Void> deleteCurriculumVitae(@PathVariable("curriculumVitaeId") String id) {
+        this.curriculumVitaeService.deleteCurriculumVitae(id);
+        return ApiResponse.<Void>builder().build();
+    }
 }

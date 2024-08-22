@@ -100,8 +100,6 @@ public class UserService {
         String name = context.getAuthentication().getName();
 
         User user = this.userRepository.findByEmail(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-//        log.info("user la: " + user);
-//        log.info("user response la: " + this.userMapper.toUserResponse(user));
         return this.userMapper.toUserResponse(user);
     }
 

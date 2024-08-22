@@ -86,5 +86,21 @@ public class CurriculumVitaeService {
                 .map(this.curriculumVitaeMapper::toCurriculumVitaeResponse).toList();
     }
 
+    public void deleteCurriculumVitae(String id) {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        User user = this.userRepository.findByEmail(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        CurriculumVitae curriculumVitae = this.curriculumVitaeRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.CURRICULUM_VITAE_NOT_FOUND));
+        if (user.getCurriculumVitaes().contains(curriculumVitae)) {
+            user.getCurriculumVitaes().remove(curriculumVitae);
+            this.userRepository.save(user);
+        } else {
+            throw new AppException(ErrorCode.CURRICULUM_VITAE_NOT_OWNED_BY_USER);
+        }
+    }
+
 
 }

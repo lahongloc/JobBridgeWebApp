@@ -23,7 +23,9 @@ public enum ErrorCode {
     FILE_EMPTY(1003, "File is empty!", HttpStatus.BAD_REQUEST),
     FILE_FORMAT_ERROR(1003, "File is not in the right format", HttpStatus.BAD_REQUEST),
     FILE_UPLOAD_ERROR(1003, "Something went wrong, uploading failed", HttpStatus.BAD_REQUEST),
-    JOBPOST_NOT_FOUND(1006, "Jobpost not found", HttpStatus.NOT_FOUND);
+    JOBPOST_NOT_FOUND(1006, "Jobpost not found", HttpStatus.NOT_FOUND),
+    CURRICULUM_VITAE_NOT_FOUND(1006, "Curriculum vitae not existed", HttpStatus.NOT_FOUND),
+    CURRICULUM_VITAE_NOT_OWNED_BY_USER(1003, "CV not owned by this user", HttpStatus.BAD_REQUEST);
 
 
     private int code;

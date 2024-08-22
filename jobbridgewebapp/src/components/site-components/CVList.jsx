@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Typography, Space, Popconfirm } from "antd";
+import { Table, Button, Typography, Space, Popconfirm, message } from "antd";
 import {
 	FilePdfOutlined,
 	EyeOutlined,
@@ -34,9 +34,22 @@ const CVList = () => {
 		loadData();
 	}, []);
 
-	const handleDelete = (id) => {
-		console.log("Deleted CV ID:", id);
-		// You can add your delete logic here, such as updating the state or making an API call to remove the CV from the server.
+	const handleDelete = async (id) => {
+		try {
+			const res = await APIs.delete(
+				`${enpoints["curriculumVitaeHandler"]}/${id}`,
+				{
+					headers: {
+						Authorization: `Bearer ${cookie.load("token")}`,
+					},
+				},
+			);
+			message.success("Xóa CV thành công!");
+			loadData();
+		} catch (err) {
+			message.error("Xóa CV thất bại!");
+			console.error(err);
+		}
 	};
 
 	const columns = [

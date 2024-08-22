@@ -8,7 +8,15 @@ import {
 	Typography,
 	Radio,
 	message,
+	Tag,
+	Spin,
 } from "antd";
+import {
+	ProfileOutlined,
+	FileTextOutlined,
+	PhoneOutlined,
+	MailOutlined,
+} from "@ant-design/icons";
 const { Title, Text } = Typography;
 import cookie from "react-cookies";
 import APIs, { enpoints } from "../../configs/APIs";
@@ -17,6 +25,9 @@ const ApplyJobModal = ({ job, isModalVisible, handleCancel }) => {
 	const [selectedOption, setSelectedOption] = useState("library"); // 'library' or 'upload'
 	const [selectedCV, setSelectedCV] = useState(null);
 	const [uploadedFile, setUploadedFile] = useState(null);
+	const [phoneNumber, setPhoneNumber] = useState(""); // State for Phone Number
+	const [email, setEmail] = useState(""); // State for Email
+	const [loading, setLoading] = useState(false);
 
 	const handleOptionChange = (option) => {
 		setSelectedOption(option);
@@ -53,6 +64,29 @@ const ApplyJobModal = ({ job, isModalVisible, handleCancel }) => {
 		},
 	};
 
+	const handleApply = async (formData) => {
+		setLoading(true);
+		try {
+			const res = await APIs.post(
+				enpoints["applicationHandler"],
+				formData,
+				{
+					headers: {
+						Authorization: `Bearer ${cookie.load("token")}`,
+						"Content-Type": "multipart/form-data",
+					},
+				},
+			);
+			message.success("Nộp hồ sơ ứng tuyển thành công!");
+			handleCancel();
+		} catch (err) {
+			message.error("Nộp hồ sơ ứng tuyển thất bại!");
+			console.error(err);
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	const handleSubmit = () => {
 		if (selectedOption === "library" && !selectedCV) {
 			message.error("Vui lòng chọn một CV từ thư viện.");
@@ -64,23 +98,28 @@ const ApplyJobModal = ({ job, isModalVisible, handleCancel }) => {
 			return;
 		}
 
-		const coverLetter = document.getElementById("coverLetter").value;
-		if (!coverLetter) {
-			message.error("Vui lòng nhập thư ứng tuyển.");
+		if (!phoneNumber) {
+			message.error("Vui lòng nhập số điện thoại.");
 			return;
 		}
 
+		if (!email) {
+			message.error("Vui lòng nhập email.");
+			return;
+		}
+
+		const coverLetter = document.getElementById("coverLetter").value;
+
 		const submissionData = {
 			jobPost: job.id,
-			selectedOption,
-			selectedCV,
-			uploadedFile,
-			coverLetter,
+			curriculumVitae: selectedCV,
+			curriculumVitaeFile: uploadedFile,
+			coverLetter: coverLetter,
+			hotline: phoneNumber,
+			email: email,
 		};
 
-		console.log(submissionData);
-		// Proceed with submission logic
-		handleCancel(); // Close the modal after successful submission
+		handleApply(submissionData);
 	};
 
 	const [cvLibraryData, setCvLibraryData] = useState();
@@ -133,19 +172,48 @@ const ApplyJobModal = ({ job, isModalVisible, handleCancel }) => {
 
 	return (
 		<Modal
-			title={`Ứng tuyển cho vị trí ${job.jobTitle}`}
+			title={
+				<Tag
+					color="processing"
+					style={{
+						fontWeight: 700,
+						textTransform: "uppercase",
+						fontSize: "15px",
+					}}
+				>
+					Ứng tuyển cho vị trí {job.jobTitle}
+				</Tag>
+			}
 			open={isModalVisible}
 			onCancel={handleCancel}
 			footer={[
-				<Button key="cancel">Hủy</Button>,
-				<Button key="submit" type="primary" onClick={handleSubmit}>
-					Nộp hồ sơ ứng tuyển
+				<Button onClick={handleCancel} key="cancel">
+					Hủy
+				</Button>,
+				<Button
+					disabled={loading}
+					key="submit"
+					type="primary"
+					onClick={handleSubmit}
+				>
+					Nộp hồ sơ ứng tuyển {loading && <Spin />}
 				</Button>,
 			]}
 		>
 			{/* Choose Option */}
-			<div style={{ marginBottom: "20px" }}>
-				<Title level={4}>Chọn CV để ứng tuyển</Title>
+			<div style={{ marginBottom: "20px", paddingTop: 5 }}>
+				<Text
+					level={4}
+					style={{
+						display: "block",
+						marginBottom: 10,
+						fontWeight: 600,
+					}}
+				>
+					<ProfileOutlined style={{ marginRight: "8px" }} />
+					Chọn CV để ứng tuyển:
+				</Text>
+
 				<Button
 					type={selectedOption === "library" ? "primary" : "default"}
 					onClick={() => handleOptionChange("library")}
@@ -206,24 +274,65 @@ const ApplyJobModal = ({ job, isModalVisible, handleCancel }) => {
 				</Text>
 			)}
 
+			{/* Phone Number */}
+			<Text
+				level={4}
+				style={{
+					display: "block",
+					marginBottom: 10,
+					fontWeight: 600,
+				}}
+			>
+				<PhoneOutlined style={{ marginRight: "8px" }} />
+				Số điện thoại
+			</Text>
+
+			<Input
+				type="number"
+				placeholder="Nhập số điện thoại"
+				value={phoneNumber}
+				onChange={(e) => setPhoneNumber(e.target.value)}
+				style={{ marginBottom: "20px" }}
+			/>
+
+			{/* Email */}
+			<Text
+				level={4}
+				style={{
+					display: "block",
+					marginBottom: 10,
+					fontWeight: 600,
+				}}
+			>
+				<MailOutlined style={{ marginRight: "8px" }} />
+				Email
+			</Text>
+			<Input
+				type="email"
+				placeholder="Nhập email"
+				value={email}
+				onChange={(e) => setEmail(e.target.value)}
+				style={{ marginBottom: "20px" }}
+			/>
+
 			{/* Cover Letter */}
-			<Title level={4} style={{ marginTop: "20px" }}>
+			<Text
+				level={4}
+				style={{
+					display: "block",
+					marginBottom: 10,
+					fontWeight: 600,
+				}}
+			>
+				<FileTextOutlined style={{ marginRight: "8px" }} />
 				Thư ứng tuyển
-			</Title>
+			</Text>
 			<Input.TextArea
 				id="coverLetter"
 				placeholder="Nhập thư ứng tuyển của bạn"
 				autoSize={{ minRows: 4, maxRows: 8 }}
 				style={{ marginBottom: "20px" }}
 			/>
-
-			{/* Lưu ý */}
-			<Title level={5}>Lưu ý</Title>
-			<Text>
-				JobBridge khuyên tất cả các bạn hãy luôn cẩn trọng trong quá
-				trình tìm việc và chủ động nghiên cứu về thông tin công ty, vị
-				trí việc làm trước khi ứng tuyển.
-			</Text>
 		</Modal>
 	);
 };

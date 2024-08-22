@@ -19,6 +19,8 @@ public class Application {
     @Column(columnDefinition = "TEXT")
     String coverLetter;
     Date createdDate;
+    String hotline;
+    String email;
     @ManyToOne
     CurriculumVitae curriculumVitae;
     @ManyToOne

@@ -34,6 +34,15 @@ const JobDetail = () => {
 	const [q] = useSearchParams();
 	const [job, setJob] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [isModalVisible, setIsModalVisible] = useState(false);
+
+	const handleApplyClicked = () => {
+		setIsModalVisible(true);
+	};
+
+	const handleCancel = () => {
+		setIsModalVisible(false);
+	};
 
 	const loadJobPost = async () => {
 		setLoading(true);
@@ -141,7 +150,9 @@ const JobDetail = () => {
 							</Button>
 						</Col>
 						<Col>
-							<Button type="primary">Ứng tuyển ngay</Button>
+							<Button onClick={handleApplyClicked} type="primary">
+								Ứng tuyển ngay
+							</Button>
 						</Col>
 					</Row>
 				</div>
@@ -238,7 +249,11 @@ const JobDetail = () => {
 					<Col span={16}>
 						<Card
 							id="job-details"
-							title="Chi tiết tuyển dụng"
+							title={
+								<Text style={{ textTransform: "uppercase" }}>
+									Chi tiết tuyển dụng
+								</Text>
+							}
 							bordered={false}
 							style={{
 								borderRadius: "12px",
@@ -326,6 +341,7 @@ const JobDetail = () => {
 							<Divider />
 							<Button
 								type="primary"
+								onClick={handleApplyClicked}
 								style={{ marginRight: "16px" }}
 							>
 								Ứng tuyển
@@ -335,7 +351,11 @@ const JobDetail = () => {
 					</Col>
 					<Col span={8}>
 						<Card
-							title="Thông tin chung"
+							title={
+								<Text style={{ textTransform: "uppercase" }}>
+									Thông tin chung
+								</Text>
+							}
 							bordered={false}
 							style={{
 								borderRadius: "12px",
@@ -409,7 +429,11 @@ const JobDetail = () => {
 								</Descriptions.Item>
 							</Descriptions>
 						</Card>
-						<ApplyJobModal job={job} isModalVisible={true} />
+						<ApplyJobModal
+							job={job}
+							isModalVisible={isModalVisible}
+							handleCancel={handleCancel}
+						/>
 					</Col>
 				</Row>
 				<h1 id="related-jobs">Công việc liên quan</h1>
