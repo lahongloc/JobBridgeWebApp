@@ -7,10 +7,10 @@
 - [Features](#features)
   - [👤 Applicant](#-applicant)
   - [🏢 Recruiter](#-recruiter)
-  - [🛠️ Admin](#-admin)
-- [🛠️ Technologies Used](#technologies-used)
-- [📄 License](#license)
-- [📫 Contact](#contact)
+  - [🛠️ Admin](#%EF%B8%8F-admin)
+- [🛠️ Technologies Used](#%EF%B8%8F-technologies-used)
+- [📄 License](#-license)
+- [📫 Contact](#-contact)
 
 ## Features
 
