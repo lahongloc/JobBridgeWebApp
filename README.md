@@ -5,12 +5,12 @@
 ## 📋 Table of Contents
 
 - [Features](#features)
-  - [👤 Applicant](#-applicant)
-  - [🏢 Recruiter](#-recruiter)
-  - [🛠️ Admin](#-admin)
-- [🛠️ Technologies Used](#-technologies-used)
-- [📄 License](#-license)
-- [📫 Contact](#-contact)
+  - [👤 Applicant](#applicant)
+  - [🏢 Recruiter](#recruiter)
+  - [🛠️ Admin](#admin)
+- [🛠️ Technologies Used](#technologies-used)
+- [📄 License](#license)
+- [📫 Contact](#contact)
 
 ## Features
 
