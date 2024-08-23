@@ -4,7 +4,7 @@
 
 ## 📋 Table of Contents
 
-- [Features](#features)
+- [Features](#applicant)
   - [👤 Applicant](#applicant)
   - [🏢 Recruiter](#recruiter)
   - [🛠️ Admin](#admin)
