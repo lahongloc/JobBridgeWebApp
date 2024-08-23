@@ -6,8 +6,8 @@
 
 - [Features](#features)
   - [👤 Applicant](#-applicant)
-  - [🏢 Recruiter](#recruiter)
-  - [🛠️ Admin](#admin)
+  - [🏢 Recruiter](#-recruiter)
+  - [🛠️ Admin](#-admin)
 - [🛠️ Technologies Used](#technologies-used)
 - [📄 License](#license)
 - [📫 Contact](#contact)
