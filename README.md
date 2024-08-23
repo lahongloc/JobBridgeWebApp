@@ -4,8 +4,8 @@
 
 ## 📋 Table of Contents
 
-- [Features](#applicant)
-  - [👤 Applicant](#applicant)
+- [Features](#features)
+  - [👤 Applicant](#-applicant)
   - [🏢 Recruiter](#recruiter)
   - [🛠️ Admin](#admin)
 - [🛠️ Technologies Used](#technologies-used)
